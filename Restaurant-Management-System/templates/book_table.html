@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book Table – BTech Restaurant</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-dark px-4">
+      <a class="navbar-brand" href="{{ url_for('home') }}"
+        >🍽️ BTech Restaurant</a
+      >
+      <span class="text-light" style="font-size: 0.9rem">👤 {{ name }}</span>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <div
+      style="
+        position: fixed;
+        top: 70px;
+        right: 20px;
+        z-index: 9999;
+        min-width: 280px;
+      "
+    >
+      {% for cat, msg in messages %}
+      <div class="alert-custom alert-{{ cat }}">{{ msg }}</div>
+      {% endfor %}
+    </div>
+    {% endif %} {% endwith %}
+
+    <div class="page-wrapper">
+      <div class="card-main">
+        <div class="section-title">
+          <h2>🪑 Book a <span>Table</span></h2>
+          <p>Select an available table (1–20)</p>
+          <div class="divider"></div>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item">
+            <div class="legend-dot available"></div>
+            <span>Available</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-dot booked"></div>
+            <span>Booked</span>
+          </div>
+        </div>
+
+        <form method="POST" action="{{ url_for('book_table') }}" id="tableForm">
+          <input type="hidden" name="table_no" id="selectedTable" />
+          <div class="table-grid">
+            {% for i in range(1, 21) %} {% if i in booked %}
+            <div class="table-btn booked">
+              <span class="table-icon">🪑</span>
+              <span>Table {{ i }}</span>
+              <span class="table-status">Booked</span>
+            </div>
+            {% else %}
+            <div
+              class="table-btn available"
+              onclick="selectTable({{ i }})"
+              id="tbl_{{ i }}"
+            >
+              <span class="table-icon">🪑</span>
+              <span>Table {{ i }}</span>
+              <span class="table-status">Available</span>
+            </div>
+            {% endif %} {% endfor %}
+          </div>
+
+          <div
+            id="selectionInfo"
+            style="
+              display: none;
+              text-align: center;
+              margin: 16px 0;
+              background: #e8f5e9;
+              border-radius: 10px;
+              padding: 12px;
+              color: #2e7d32;
+              font-weight: 600;
+            "
+          >
+            ✅ Table <span id="selNum"></span> selected
+          </div>
+
+          <div class="d-flex gap-3 mt-2 justify-content-center flex-wrap">
+            <button
+              type="submit"
+              class="btn-primary-custom"
+              id="bookBtn"
+              disabled
+            >
+              📅 Confirm Booking
+            </button>
+            <a href="{{ url_for('user_dashboard') }}" class="btn-outline-custom"
+              >← Back</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function selectTable(num) {
+        document.querySelectorAll(".table-btn.available").forEach((btn) => {
+          btn.style.background = "";
+          btn.style.color = "";
+        });
+        var el = document.getElementById("tbl_" + num);
+        el.style.background = "#2e7d32";
+        el.style.color = "#fff";
+        document.getElementById("selectedTable").value = num;
+        document.getElementById("selNum").textContent = num;
+        document.getElementById("selectionInfo").style.display = "block";
+        document.getElementById("bookBtn").disabled = false;
+      }
+      setTimeout(() => {
+        document.querySelectorAll(".alert-custom").forEach((el) => {
+          el.style.opacity = "0";
+          setTimeout(() => el.remove(), 500);
+        });
+      }, 3000);
+    </script>
+  </body>
+</html>

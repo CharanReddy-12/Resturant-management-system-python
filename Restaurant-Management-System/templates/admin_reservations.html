@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reservations – BTech Restaurant</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-dark px-4">
+      <a class="navbar-brand" href="{{ url_for('home') }}"
+        >🍽️ BTech Restaurant</a
+      >
+      <span class="text-warning" style="font-size: 0.9rem">🔐 Admin Panel</span>
+    </nav>
+
+    <div class="page-wrapper">
+      <div class="card-main wide">
+        <div class="section-title">
+          <h2>🪑 Table <span>Reservations</span></h2>
+          <p>All current table bookings</p>
+          <div class="divider"></div>
+        </div>
+        {% if reservations %}
+        <div class="table-responsive">
+          <table class="table-custom">
+            <thead>
+              <tr>
+                <th style="width: 80px">S.No</th>
+                <th>Customer Name</th>
+                <th style="width: 130px">Table No.</th>
+                <th style="width: 180px">Booked At</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for r in reservations %}
+              <tr>
+                <td><strong>{{ loop.index }}</strong></td>
+                <td>{{ r.user_name }}</td>
+                <td>
+                  <span
+                    style="
+                      background: #e8eaf6;
+                      color: #3949ab;
+                      padding: 4px 14px;
+                      border-radius: 20px;
+                      font-weight: 700;
+                      font-size: 0.9rem;
+                    "
+                  >
+                    Table {{ r.table_no }}
+                  </span>
+                </td>
+                <td style="font-size: 0.82rem; color: var(--gray)">
+                  {{ r.created_at }}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 40px; color: var(--gray)">
+          <p style="font-size: 3rem">📭</p>
+          <p>No table reservations yet.</p>
+        </div>
+        {% endif %}
+        <div class="back-link mt-4">
+          <a href="{{ url_for('admin_dashboard') }}">← Back to Dashboard</a>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

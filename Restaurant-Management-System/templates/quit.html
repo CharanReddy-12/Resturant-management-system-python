@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Goodbye – BTech Restaurant</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar navbar-dark px-4">
+      <a class="navbar-brand" href="{{ url_for('home') }}"
+        >🍽️ BTech Restaurant</a
+      >
+    </nav>
+    <div class="page-wrapper">
+      <div class="card-main" style="max-width: 440px">
+        <div class="quit-box">
+          <span class="quit-icon">👋</span>
+          <h2>Thank You for Visiting!</h2>
+          <p>
+            We hope to see you again at BTech Restaurant. Have a wonderful day!
+          </p>
+          <a href="{{ url_for('home') }}" class="btn-primary-custom"
+            >🏠 Go Back to Home</a
+          >
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
